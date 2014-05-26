@@ -1,0 +1,13 @@
+{
+  "Rules": [
+    {
+      "Transition": {
+        "StorageClass": "GLACIER",
+        "Days": 0
+      },
+      "Prefix": null,
+      "Status": "Enabled",
+      "ID": "Rule for Backup Lightroom Photos"
+    }
+  ]
+}

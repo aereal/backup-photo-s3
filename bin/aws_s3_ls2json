@@ -1,0 +1,20 @@
+#!/usr/bin/env ruby
+
+require 'json'
+
+AWS_S3_LS_LINE_PATTERN = %r{\A(?<date>\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2})\s+(?<size>\d+)\s+(?<path>.+)}
+
+lazy_lines = ARGF.each_line.lazy
+matches    = lazy_lines.map {|line| AWS_S3_LS_LINE_PATTERN.match(line) }
+non_nils   = matches.reject(&:nil?)
+structs    = non_nils.map {|matched|
+  {
+    date: matched[:date],
+    size: matched[:size].to_i,
+    path: matched[:path]
+  }
+}
+evaluated = structs.force
+
+print_method = ARGV.include?('--pretty') ? :jj : :j
+send(print_method, evaluated)
